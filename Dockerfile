@@ -1,10 +1,15 @@
+# Brug et letvægts-Nginx image som base
 FROM nginx:alpine
 
-# Copy the HTML file to the Nginx default folder
+# Kopier din HTML-fil til den standardmappe, Nginx serverer fra
 COPY index.html /usr/share/nginx/html/
 
-# Expose the port that Cloud Run expects
+# Tilføj en egen default.conf-fil til Nginx, der dynamisk bruger $PORT
+COPY default.conf /etc/nginx/conf.d/default.conf
+
+# Eksponér den port, som Google Cloud Run vil bruge
 EXPOSE 8080
 
-# Dynamically set the Nginx configuration to use the port from the PORT environment variable
-CMD ["sh", "-c", "sed -i 's/listen  .*/listen ${PORT};/' /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
+
