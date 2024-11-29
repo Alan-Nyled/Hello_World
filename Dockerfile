@@ -1,5 +1,5 @@
 FROM nginx:alpine
-
+ENV PORT=8080
 # Kopier HTML-filen til Nginx's webservermappe
 COPY index.html /usr/share/nginx/html/
 
